@@ -25,6 +25,22 @@ class _FullScreenState extends State<FullScreen> {
             child: Image.network(widget.imageurl,fit: BoxFit.cover,),
           )),
           Container(
+            child: Column(
+              children: [
+                Expanded(child: Container()),
+                Container(
+                  width: MediaQuery.of(context).size.width / 2,
+                            height: 60,
+                            decoration: BoxDecoration(
+                            color: Color(0xff1C1B1B).withOpacity(0.8),
+                            borderRadius: BorderRadius.circular(40),
+                          ),
+                ),
+                SizedBox(height: 45,)
+              ],
+            ),
+          ),
+          Container(
           child: Column(
            children: [
             Expanded(child: Container()),
@@ -33,19 +49,62 @@ class _FullScreenState extends State<FullScreen> {
                 _save();
               },
               child: Padding(
-                padding: const EdgeInsets.only(bottom: 30),
+                padding: const EdgeInsets.only(bottom: 10),
                 child: Container(
+                  width: MediaQuery.of(context).size.width / 2,
+                            height: 60,
                   padding: EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30),
-                    color: Colors.grey,
+                    border:
+                                    Border.all(color: Colors.white24, width: 1),
+                                borderRadius: BorderRadius.circular(40),
+                                gradient: LinearGradient(
+                                    colors: [
+                                      Color(0x36FFFFFF),
+                                      Color.fromARGB(15, 18, 17, 17)
+                                    ],
+                                    begin: FractionalOffset.topLeft,
+                                    end: FractionalOffset.bottomRight)
                    
                     
                   ),
-                  child: Text("Set Wallpaper",style: TextStyle(fontSize: 20),),
+                  child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: const <Widget>[
+                                Text(
+                                  "Set Wallpaper",
+                                  style: TextStyle(
+                                      color: Colors.white70,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                                SizedBox(
+                                  height: 1,
+                                ),
+                                Text("Image will be saved in gallery",
+                                  style: TextStyle(
+                                      fontSize: 12, color: Colors.white70),
+                                ),
+                                
+                              ],
+                            ),
                 ),
               ),
-            )
+            ),
+            
+            InkWell(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    "Cancel",
+                    style: TextStyle(
+                        color: Colors.white60,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500),
+                  ),
+                ),
+            SizedBox(height: 15,),
            ],
           ),
         ),

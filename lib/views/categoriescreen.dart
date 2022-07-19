@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:wallpaper_app/data/data.dart';
+import 'package:wallpaper_app/views/full_screen.dart';
 import 'package:wallpaper_app/views/widget/widget.dart';
 import 'package:http/http.dart'as http;
 class CategorieWallpaper extends StatefulWidget {
@@ -59,10 +60,7 @@ class _CategorieWallpaperState extends State<CategorieWallpaper> {
                         padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 20),
                         child: Container(
                           
-                          decoration:BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            color: Color.fromARGB(255, 231, 233, 237) 
-                          ),
+                          
                           padding:EdgeInsets.symmetric(horizontal: 20),
                           
                           child:Text(widget.categorie,style: TextStyle(fontSize: 30),),
@@ -90,14 +88,20 @@ class _CategorieWallpaperState extends State<CategorieWallpaper> {
                              shrinkWrap: true,
                              itemCount: categorieWall.length,
                            
-                           itemBuilder: (BuildContext context, int index) {return Container(
-                            decoration: BoxDecoration(
-                              color: Colors.grey[350],
-                              borderRadius: BorderRadius.circular(16)
-                            ),
-                             child: ClipRRect(
-                              borderRadius: BorderRadius.circular(16),
-                              child: Image.network(categorieWall[index]['src']['large2x'],fit: BoxFit.cover,)),
+                           itemBuilder: (BuildContext context, int index) {return InkWell(
+                            onTap: (){
+                             Navigator.push(context, MaterialPageRoute(builder: ((context) => FullScreen(imageurl:categorieWall[index]['src']['large2x']))));
+
+                            },
+                             child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.grey[350],
+                                borderRadius: BorderRadius.circular(16)
+                              ),
+                               child: ClipRRect(
+                                borderRadius: BorderRadius.circular(16),
+                                child: Image.network(categorieWall[index]['src']['large2x'],fit: BoxFit.cover,)),
+                             ),
                            );  },
                            gridDelegate:SliverGridDelegateWithFixedCrossAxisCount(
                                                  crossAxisSpacing: 6,
