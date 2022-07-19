@@ -1,6 +1,7 @@
 
 
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:cupertino_icons/cupertino_icons.dart';
@@ -8,6 +9,7 @@ import 'package:wallpaper_app/data/data.dart';
 import 'package:wallpaper_app/model/categories.dart';
 import 'package:wallpaper_app/model/wallpaper_model.dart';
 import 'package:wallpaper_app/views/categoriescreen.dart';
+import 'package:wallpaper_app/views/full_screen.dart';
 import 'package:wallpaper_app/views/search.dart';
 import 'package:wallpaper_app/views/widget/widget.dart';
 import 'package:http/http.dart' as http;
@@ -58,7 +60,7 @@ class _HomeState extends State<Home> {
 
   }
     ScrollController _scrollController = new ScrollController();
-    TextEditingController _query =new TextEditingController();
+    TextEditingController _query =new TextEditingController(text: "random");
 
   void initState() {
     getTrendingWallpaper();
@@ -97,7 +99,8 @@ class _HomeState extends State<Home> {
                           child: Row(
                             children: [
                               Expanded(
-                                child: TextField(
+                                child: TextFormField(
+                                  
                                   controller: _query,
                                   decoration: InputDecoration(
                                     hintText: "Search Wallpaper",
@@ -108,7 +111,9 @@ class _HomeState extends State<Home> {
                               ),
                               GestureDetector(
                                 onTap: (){
-                                  Navigator.push(context, MaterialPageRoute(builder: ((context) => Search(query: _query.text))));
+                                  
+                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>Search(query: _query.text)));
+                                  
                                 },
                                 child: Icon(Icons.search)),
                             ],
@@ -147,10 +152,21 @@ class _HomeState extends State<Home> {
                              shrinkWrap: true,
                              itemCount: wallpapers.length,
                            
-                           itemBuilder: (BuildContext context, int index) {return Container(
-                             child: ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: Image.network(wallpapers[index]['src']['large2x'],fit: BoxFit.cover,)),
+                           itemBuilder: (BuildContext context, int index) {return InkWell(
+                            onTap: () {
+                              Navigator.push(context, MaterialPageRoute(builder: ((context) => FullScreen(imageurl:wallpapers[index]['src']['large2x']))));
+
+                            },
+                             child: Container(
+                              
+                              decoration: BoxDecoration(
+                                    color: Colors.grey[350],
+                                    borderRadius: BorderRadius.circular(16)
+                              ),
+                               child: ClipRRect(
+                                borderRadius: BorderRadius.circular(16),
+                                child: Image.network(wallpapers[index]['src']['large'],fit: BoxFit.cover,)),
+                             ),
                            );  },
                            gridDelegate:SliverGridDelegateWithFixedCrossAxisCount(
                                                  crossAxisSpacing: 6,

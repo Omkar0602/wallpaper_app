@@ -5,20 +5,20 @@ import 'package:flutter/cupertino.dart';
 import 'package:wallpaper_app/data/data.dart';
 import 'package:wallpaper_app/views/widget/widget.dart';
 import 'package:http/http.dart'as http;
-class Search extends StatefulWidget {
- final String query;
-  Search( {required this.query});
+class CategorieWallpaper extends StatefulWidget {
+ final String categorie;
+  CategorieWallpaper( {required this.categorie});
 
   @override
-  State<Search> createState() => _SearchState();
+  State<CategorieWallpaper> createState() => _CategorieWallpaperState();
 }
 
-class _SearchState extends State<Search> {
+class _CategorieWallpaperState extends State<CategorieWallpaper> {
   @override
- List queryWall =[];
+ List categorieWall =[];
  int page =1;
- Search(String query)async{
-      await http.get(Uri.parse(    "https://api.pexels.com/v1/search?query=$query&per_page=80"),
+ CategorieWallpaper(String categorie)async{
+      await http.get(Uri.parse(    "https://api.pexels.com/v1/search?query=$categorie&per_page=80"),
     headers:{
       "Authorization": apiKey
       },
@@ -26,11 +26,11 @@ class _SearchState extends State<Search> {
         Map result =jsonDecode(value.body);
         setState(() {
           print(value.body.toString());
-      queryWall=result['photos'];
+      categorieWall=result['photos'];
     });
       });}
       void initState() {
-    Search(widget.query);
+    CategorieWallpaper(widget.categorie);
     
     super.initState();
     
@@ -65,10 +65,10 @@ class _SearchState extends State<Search> {
                           ),
                           padding:EdgeInsets.symmetric(horizontal: 20),
                           
-                          child: Center(child: Text('Search result for'+'"'+widget.query+'"',style: TextStyle(fontSize: 30),)),
+                          child:Text(widget.categorie,style: TextStyle(fontSize: 30),),
                         ),
                       ),
-                     
+                      SizedBox(height:20 ,),
 
                       
                      
@@ -88,7 +88,7 @@ class _SearchState extends State<Search> {
                           },
                            child: GridView.builder(
                              shrinkWrap: true,
-                             itemCount: queryWall.length,
+                             itemCount: categorieWall.length,
                            
                            itemBuilder: (BuildContext context, int index) {return Container(
                             decoration: BoxDecoration(
@@ -97,7 +97,7 @@ class _SearchState extends State<Search> {
                             ),
                              child: ClipRRect(
                               borderRadius: BorderRadius.circular(16),
-                              child: Image.network(queryWall[index]['src']['large2x'],fit: BoxFit.cover,)),
+                              child: Image.network(categorieWall[index]['src']['large2x'],fit: BoxFit.cover,)),
                            );  },
                            gridDelegate:SliverGridDelegateWithFixedCrossAxisCount(
                                                  crossAxisSpacing: 6,
